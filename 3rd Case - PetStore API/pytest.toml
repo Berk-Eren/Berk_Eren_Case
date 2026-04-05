@@ -1,0 +1,5 @@
+[pytest]
+markers = [
+    "positive: denotes that the test is a positive case", 
+    "negative: denotes that the test is a negative case"
+]

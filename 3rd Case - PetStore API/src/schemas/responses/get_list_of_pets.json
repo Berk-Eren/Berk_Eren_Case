@@ -1,0 +1,51 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "status"],
+    "properties": {
+      "id": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "name": {
+        "type": "string"
+      },
+      "photoUrls": {
+        "type": "array",
+        "items": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }]
+        }
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "status": {
+        "type": "string",
+        "enum": ["available", "pending", "sold"]
+      }
+    }
+  }
+}

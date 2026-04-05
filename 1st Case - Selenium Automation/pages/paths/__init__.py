@@ -1,0 +1,5 @@
+from .home_page_paths import HomePagePaths
+from .open_roles import OpenRolesPaths
+from .department_roles_page_paths import DepartmentRolePagePaths
+from .role_details_page_paths import RoleDetailsPagePaths
+from .role_application_page_paths import RoleApplicationPaths

@@ -1,0 +1,6 @@
+.mypy_cache
+.pytest_cache
+.vscode
+.vscode/*
+**/__pycache__/
+poetry.lock
