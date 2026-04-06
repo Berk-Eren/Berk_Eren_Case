@@ -7,7 +7,7 @@ from datetime import datetime
 from pages.actions import (
     OpenRolesPageActions,
     HomePageActions,
-    DepartmentRolePage,
+    DepartmentRolesPage,
     RoleDetailsPage,
     RoleApplicationPage,
 )
@@ -47,7 +47,9 @@ def pytest_runtest_makereport(item, call):
             driver = item.funcargs["driver"]
 
             timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            file_name = f"{OUTPUT_FOLDER}/screenshots/screenshot_{item.name}_{timestamp}.png"
+            file_name = (
+                f"{OUTPUT_FOLDER}/screenshots/screenshot_{item.name}_{timestamp}.png"
+            )
 
             driver.save_screenshot(file_name)
             print(f"\nScreenshot saved as: {file_name}")
@@ -63,8 +65,13 @@ def driver(request):
         from selenium.webdriver.chrome.options import Options
 
         options = Options()
+
+        options.add_argument("--start-maximized")
         options.add_argument("--force-device-scale-factor=1")
-        driver_class = webdriver.Chrome
+
+        logger.info("Starting the browser")
+
+        driver = webdriver.Chrome(options=options)
     elif request.config.getoption("--driver") == "firefox":
         logger.info("Firefox browser is being selected by user")
 
@@ -72,7 +79,11 @@ def driver(request):
 
         options = Options()
         options.set_preference("layout.css.devPixelsPerPx", "1.0")
-        driver_class = webdriver.Firefox
+
+        logger.info("Starting the browser")
+
+        driver = webdriver.Firefox(options=options)
+        driver.maximize_window()
 
     if request.config.getoption("--headless"):
         logger.info("Browser will be started in headless mode")
@@ -80,12 +91,7 @@ def driver(request):
     if request.config.getoption("--no-sandbox"):
         options.add_argument("--no-sandbox")
 
-    options.add_argument("--start-maximized")
     options.add_argument("--disable-dev-shm-usage")
-
-    logger.info("Starting the browser")
-    driver = driver_class(options=options)
-    driver.maximize_window()
 
     yield driver
 
@@ -104,12 +110,12 @@ def open_roles_page(driver):
 
 @pytest.fixture(scope="function")
 def department_role_page(driver):
-    return DepartmentRolePage(driver=driver)
+    return DepartmentRolesPage(driver=driver)
 
 
 @pytest.fixture(scope="function")
 def department_role_page(driver):
-    return DepartmentRolePage(driver=driver)
+    return DepartmentRolesPage(driver=driver)
 
 
 @pytest.fixture(scope="function")

@@ -1,8 +1,9 @@
 import time
 from functools import partial
 
-from selenium.webdriver.common.by import By, ByType
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from src.logger import logger
 
@@ -11,12 +12,13 @@ class MainActions:
 
     def __init__(self, *, driver):
         self.driver = driver
+        self.driver.implicitly_wait(15)
         self._wait = partial(WebDriverWait, self.driver)
 
     def current_url_equals_to(self, url: str):
         logger.info(f"Checking whether current url equals to {url}")
         try:
-            assert self.driver.current_url == url
+            self._wait(20).until(EC.url_to_be(url))
         except Exception as e:
             error_msg = f"Expected URL: {url}\nCurrent URL: {self.driver.current_url}"
 

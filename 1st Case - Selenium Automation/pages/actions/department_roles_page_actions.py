@@ -1,11 +1,12 @@
 from .main_actions import MainActions
 from ..paths import DepartmentRolePagePaths as PATH
 
+from selenium.webdriver.support import expected_conditions as EC
 
 from src.logger import logger
 
 
-class DepartmentRolePage(MainActions):
+class DepartmentRolesPage(MainActions):
 
     def get_list_of_job_openings(self):
         logger.info("Getting list of job openings")
@@ -40,7 +41,9 @@ class DepartmentRolePage(MainActions):
     def set_location(self, location: str):
         logger.info(f"Setting job location as {location}")
 
-        location_bar_element = self.driver.find_element(*PATH.LOCATION_FILTER_BAR)
+        location_bar_element = self._wait(30).until(
+            EC.visibility_of_element_located(PATH.LOCATION_FILTER_BAR)
+        )
         location_bar_element.click()
 
         location_elements = location_bar_element.find_elements("xpath", "div/ul/li/a")
