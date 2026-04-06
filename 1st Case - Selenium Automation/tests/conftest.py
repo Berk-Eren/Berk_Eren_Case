@@ -63,6 +63,7 @@ def driver(request):
         from selenium.webdriver.chrome.options import Options
 
         options = Options()
+        options.add_argument("--force-device-scale-factor=1")
         driver_class = webdriver.Chrome
     elif request.config.getoption("--driver") == "firefox":
         logger.info("Firefox browser is being selected by user")
@@ -70,6 +71,7 @@ def driver(request):
         from selenium.webdriver.firefox.options import Options
 
         options = Options()
+        options.set_preference("layout.css.devPixelsPerPx", "1.0")
         driver_class = webdriver.Firefox
 
     if request.config.getoption("--headless"):
@@ -83,6 +85,7 @@ def driver(request):
 
     logger.info("Starting the browser")
     driver = driver_class(options=options)
+    driver.maximize_window()
 
     yield driver
 
