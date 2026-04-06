@@ -21,6 +21,5 @@ First task
 - Run the following
   - python -m pytest
 - You can also add several options as below
-  - python -m pytest --headless
   - python -m pytest --driver (chrome|firefox)
 - In case of any type of error, log file and screenshots are saved under '_output_' folder.

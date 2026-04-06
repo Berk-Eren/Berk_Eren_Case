@@ -19,11 +19,10 @@ def pytest_addoption(parser):
     """
     Command line arguments
     """
-    parser.addoption("--headless", help="Whether to run tests on headless mode or not.")
     parser.addoption(
         "--no-sandbox",
         action="store_true",
-        help="Whether to run tests on headless mode or not.",
+        help="Whether to de-activate sandbox or not.",
     )
     parser.addoption(
         "--driver",
@@ -66,6 +65,9 @@ def driver(request):
 
         options = Options()
 
+        if request.config.getoption("--no-sandbox"):
+            options.add_argument("--no-sandbox")
+
         options.add_argument("--start-maximized")
         options.add_argument("--force-device-scale-factor=1")
 
@@ -80,16 +82,13 @@ def driver(request):
         options = Options()
         options.set_preference("layout.css.devPixelsPerPx", "1.0")
 
+        if request.config.getoption("--no-sandbox"):
+            options.add_argument("--no-sandbox")
+
         logger.info("Starting the browser")
 
         driver = webdriver.Firefox(options=options)
         driver.maximize_window()
-
-    if request.config.getoption("--headless"):
-        logger.info("Browser will be started in headless mode")
-        options.add_argument("--headless")
-    if request.config.getoption("--no-sandbox"):
-        options.add_argument("--no-sandbox")
 
     options.add_argument("--disable-dev-shm-usage")
 
