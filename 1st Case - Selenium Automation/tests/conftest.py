@@ -47,7 +47,7 @@ def pytest_runtest_makereport(item, call):
             driver = item.funcargs["driver"]
 
             timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            file_name = f"{OUTPUT_FOLDER}/screenshot_{item.name}_{timestamp}.png"
+            file_name = f"{OUTPUT_FOLDER}/screenshots/screenshot_{item.name}_{timestamp}.png"
 
             driver.save_screenshot(file_name)
             print(f"\nScreenshot saved as: {file_name}")
